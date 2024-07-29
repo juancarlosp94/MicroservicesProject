@@ -1,4 +1,4 @@
-package com.microserviceapp.order_service;
+package com.microservicesapp.order_service;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
