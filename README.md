@@ -32,4 +32,11 @@ Order service will make a request to check product status in Inventory service. 
 
 Synchronous communication is usually done through `Http` clients. For this demo we are using `Webclient` from `SpringBoot`
 
+>[!CAUTION]
+>After Java 10+ `stream().toList()` method, convert an abject to an immutable. The class OrderService tries to map OrderLineItems entities and transform them to a DTO. This causes UnsupportedOperationException: null - ImmutableCollections error on the `clear()` method. So for versions above, the  stream method should be changed to `collect(Collectors.toList()` in line 34 on placeOrder method.
+
+
+
+
+
 
