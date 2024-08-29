@@ -35,7 +35,11 @@ Synchronous communication is usually done through `Http` clients. For this demo 
 >[!CAUTION]
 >After Java 10+ `stream().toList()` method, convert an abject to an immutable. The class OrderService tries to map OrderLineItems entities and transform them to a DTO. This causes UnsupportedOperationException: null - ImmutableCollections error on the `clear()` method. So for versions above, the  stream method should be changed to `collect(Collectors.toList()` in line 34 on placeOrder method.
 
+The project is set to run locally. But microservices environments usually run on cloud servers. We might have multiple instances of the Inventory service and each instance can have different dynamic IP addresses, as we can see in the following diagram:
 
+![CloudInstances](https://github.com/user-attachments/assets/fe72f60c-2be4-487c-b012-7b0d255545a8)
+
+How can Order service know which instance to call? To solve this we have Service Discovery Pattern.
 
 
 
