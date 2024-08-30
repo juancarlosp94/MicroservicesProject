@@ -41,6 +41,18 @@ The project is set to run locally. But microservices environments usually run on
 
 How can Order service know which instance to call? To solve this we have Service Discovery Pattern.
 
+![ServiceDiscoveryPattern drawio](https://github.com/user-attachments/assets/a920e64c-0c96-4bac-9c99-9e1cfadc1620)
+
+The Discovery Server will store information about server instances, their names and IP addresses. Whenever a request is made by a service to the Discovery Server its IP is registered in the registry as an entry.
+
+![DiscoveryServiceCommunication](https://github.com/user-attachments/assets/63789793-23ca-48ba-8c43-624b43c9b452)
+
+The Discovery Server will provide the correct IP address for each request. We avoid hardcoding `URL` of the inventory service. If for some reason Discovery Server is not avaiable, client will store a copy of registries
+
+![DiscoveryServiceCommunication2 drawio](https://github.com/user-attachments/assets/ef9078b0-ba77-4fae-95f7-42f28693f591)
+
+
+
 
 
 
