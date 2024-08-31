@@ -47,7 +47,7 @@ The Discovery Server will store information about server instances, their names 
 
 ![DiscoveryServiceCommunication](https://github.com/user-attachments/assets/63789793-23ca-48ba-8c43-624b43c9b452)
 
-The Discovery Server will provide the correct IP address for each request. We avoid hardcoding `URL` of the inventory service. If for some reason Discovery Server is not avaiable, client will store a copy of registries
+The Discovery Server will provide the correct IP address for each request. We avoid hardcoding `URL` of the inventory service. If for some reason Discovery Server is not avaiable, client will store a copy of registries.
 
 ![DiscoveryServiceCommunication2 drawio](https://github.com/user-attachments/assets/ef9078b0-ba77-4fae-95f7-42f28693f591)
 
