@@ -3,7 +3,8 @@
 > [!IMPORTANT]
 > This project follows the video course on: [Spring Boot Microservice Project Full Course in 6 Hours](https://www.youtube.com/watch?v=mPPhcU7oWDU&t=5704s). Documentation, comments and notes will be done manually by me. The intention is to improve documentation and English skills.
 
-
+> [!CAUTION]
+> This project uses an outdated version of SpringBoot cloud. Some changes will be made under the feature-version-fix branch to update to SpringBoot 3. Video guide : [Spring Boot 3 Microservices with Kubernetes and Angular Complete Course in 7 Hours](https://www.youtube.com/watch?v=yn_stY3HCr8). I will leave the documentation from previous version in order to identify what changes were made
 
 The purpose of this project is to review the topic of microservices and improve the use of `Spring` tools. We will develop different services and each of them will have synchronous and asynchronous communication.
 The following are the services we will be working on:
@@ -14,7 +15,14 @@ The following are the services we will be working on:
 - Order service, Inventory service and notification service are going to interact with each other
 
 ### Solution Architecture Diagram:
+Sprinboot 2
+
 ![Diagrama Microservicios](https://github.com/juancarlosp94/MicroservicesProject/assets/70818906/7c564dc5-1075-4587-9a66-1a2c6ecf5a42)
+
+SpringBoot 3
+
+![MicoservicesProjectVersion2 drawio](https://github.com/user-attachments/assets/c7a7a54c-c5d2-4b96-a9a4-6d79a1c198cc)
+
 
 ### Logic Architecture of each service
 ![Diagrama Servicios](https://github.com/juancarlosp94/MicroservicesProject/assets/70818906/37d56374-6073-475e-8342-0d32ffa68e5e)
