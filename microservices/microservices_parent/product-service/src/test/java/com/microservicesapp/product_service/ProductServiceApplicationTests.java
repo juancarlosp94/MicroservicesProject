@@ -1,35 +1,47 @@
-//package com.microservicesapp.product_service;
-//
-//import com.fasterxml.jackson.databind.ObjectMapper;
-//import com.microservicesapp.product_service.dto.ProductRequest;
-//import com.microservicesapp.product_service.repository.ProductRepository;
-//import org.junit.jupiter.api.Assertions;
-//import org.junit.jupiter.api.Test;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-//import org.springframework.boot.test.context.SpringBootTest;
-//import org.springframework.http.MediaType;
-//import org.springframework.test.context.DynamicPropertyRegistry;
-//import org.springframework.test.context.DynamicPropertySource;
-//import org.springframework.test.web.servlet.MockMvc;
-//import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-//import org.testcontainers.containers.MongoDBContainer;
-//import org.testcontainers.junit.jupiter.Container;
-//import org.testcontainers.junit.jupiter.Testcontainers;
-//import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingException;
-//
-//
-//import java.math.BigDecimal;
-//
-//import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-//
-//@SpringBootTest
-//@Testcontainers
-//@AutoConfigureMockMvc
-//class ProductServiceApplicationTests {
-//
+package com.microservicesapp.product_service;
+
+import io.restassured.RestAssured;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
+import org.testcontainers.containers.MongoDBContainer;
+import org.hamcrest.Matchers;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.microservicesapp.product_service.dto.ProductRequest;
+import com.microservicesapp.product_service.repository.ProductRepository;
+import org.junit.jupiter.api.Assertions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Service;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingException;
+
+
+import java.math.BigDecimal;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+//Notes:
 //	@Container // This annotation allow JUnit5 to identify this object as a container
-//	static MongoDBContainer mongoDBContainer = new MongoDBContainer("mongo:4.4.2");
+//	static MongoDBContainer mongoDBContainer = new MongoDBContainer("mongo:7.0.5");
+
+@SpringBootTest (webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+class ProductServiceApplicationTests {
+
+
+
+	@ServiceConnection
+	static MongoDBContainer mongoDBContainer = new MongoDBContainer("mongo:7.0.5");
+
 //	@Autowired
 //	private MockMvc mockMvc;
 //
@@ -41,8 +53,45 @@
 //	static void setProperties(DynamicPropertyRegistry dynamicPropertyRegistry) {
 //		dynamicPropertyRegistry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
 //	}
-//	@Test
-//	void shouldCreateProduct() throws Exception {
+	@LocalServerPort
+	private Integer port;
+
+	@BeforeEach
+	void setUp() {
+		RestAssured.baseURI= "http://localhost";
+		RestAssured.port= port;
+	}
+
+	static {
+		mongoDBContainer.start();
+	}
+
+	@Test
+	void shouldCreateProduct()  {
+
+		String requestBody = """
+				{
+				  "name": "Iphone 12",
+				  "description": "Apple Smartphone",
+				  "price": 200
+				}
+				""";
+
+		RestAssured.given()
+				.contentType("application/json")
+				.body(requestBody)
+				.when()
+				.post("/api/product")
+				.then()
+				.statusCode(201)
+				.body("id", Matchers.notNullValue())
+				.body("name", Matchers.equalTo("Iphone 12"))
+			    .body("description", Matchers.equalTo("Apple Smartphone"))
+				.body("price", Matchers.equalTo(200));
+
+
+
+//      Version Spring 2
 //		ProductRequest productRequest = getProductRequest();
 //		String ProductRequestString = objectMapper.writeValueAsString(productRequest);
 //
@@ -51,8 +100,8 @@
 //				.content(ProductRequestString))
 //				.andExpect(status().isCreated());
 //		Assertions.assertTrue(productRepository.findAll().size() == 1);
-//	}
-//
+	}
+
 //	private ProductRequest getProductRequest() {
 //		return ProductRequest.builder()
 //				.name("Iphone 14 pro max")
@@ -60,5 +109,5 @@
 //				.price(BigDecimal.valueOf(800))
 //				.build();
 //	}
-//
-//}
+
+}
