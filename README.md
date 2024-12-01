@@ -38,10 +38,13 @@ Communication could be either Synchronous or Asynchronous
 
 Order service will make a request to check product status in Inventory service. Then Inventory service will respond whether the product is in stock or not. Based on the response, Order service will either place the order successfully or throw an exception or an error that the product is out of stock to the cutomer.
 
+>[!NOTE]
+>To make an integration test of such interaction between order service and inventory service we will use Wiremock which is a better option instead of Mockito. This ensures that http requests are tested and mocked. Another advantage of using this approach is that testing connection to another service API increases the cost each time the availability of the service is checked.
+
 Synchronous communication is usually done through `Http` clients. For this demo we are using `Webclient` from `SpringBoot`
 
 >[!CAUTION]
->After Java 10+ `stream().toList()` method, convert an abject to an immutable. The class OrderService tries to map OrderLineItems entities and transform them to a DTO. This causes UnsupportedOperationException: null - ImmutableCollections error on the `clear()` method. So for versions above, the  stream method should be changed to `collect(Collectors.toList()` in line 34 on placeOrder method.
+>After Java 10+ `stream().toList()` method, convert an object to an immutable. The class OrderService tries to map OrderLineItems entities and transform them to a DTO. This causes UnsupportedOperationException: null - ImmutableCollections error on the `clear()` method. So for versions above, the  stream method should be changed to `collect(Collectors.toList()` in line 34 on placeOrder method.
 
 The project is set to run locally. But microservices environments usually run on cloud servers. We might have multiple instances of the Inventory service and each instance can have different dynamic IP addresses, as we can see in the following diagram:
 
